@@ -2,7 +2,7 @@
 ///name of the source file, as files can contain more than one contract.
 const BirToken = artifacts.require("BirToken");
  module.exports = function(deployer) {
-  deployer.deploy(BirToken);
+  deployer.deploy(BirToken,1000);
 };
 
 
