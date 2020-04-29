@@ -8,6 +8,8 @@
 // 6. Test yourc ontract by makinga test file
 // that is BirToken.js
 //7. push to git
+// git remote add origin url(of the repo then)
+	 //git push origin master
 //8. add 10000  to 2_deploy
 
 
@@ -23,10 +25,18 @@ contract BirToken{
 		address indexed _to,
 		uint _value
 	);
+	//approve event
+	event Approval(
+		 address indexed _owner,
+		 address indexed _spender,
+		 uint _value
+	);
 
 	uint public totalSupply;//its a state variable
 	mapping(address=> uint) public balanceOf;
-	
+	// allowance
+	mapping(address=>mapping(address =>uint)) public allowance;
+
 	// _ for arguments
 	constructor(uint _initialSupply)public{
 		totalSupply = _initialSupply;
@@ -38,13 +48,39 @@ contract BirToken{
 }
 function transfer(address _to, uint _value)public  returns(bool success){
 		//exception if account doesnt have enough
-		require(balanceOf[msg.sender] >= _value);
-		// transfer the balance 
+		require(balanceOf[msg.sender] >= _value,'');
+		// transfer the balance
 		balanceOf[msg.sender] -= _value;
 		balanceOf[_to] += _value;
 		//returns a boolean
-		 emit Transfer(msg.sender,_to,_value);
+		emit Transfer(msg.sender,_to,_value);
 		//transfer event
+		return true;
+	}
+	//Delegated Transfer
+
+	//approve
+	function approve(address _spender,uint _value)public returns(bool success) {
+		//allowance
+		allowance[msg.sender][_spender] = _value;
+		//approve event
+		emit Approval(msg.sender,_spender,_value);
+		return true;
+	}
+	//transferFrom: it makes the transfer from our behalf
+	function transferFrom(address _from,address _to,uint _value) public returns(bool success){
+		//require from has enough tokens
+		require(_value <= balanceOf[_from]);
+		//require allowance is big enough
+		require(allowance[_from][msg.sender] >= _value);
+		//change the balance
+		balanceOf[_from] -= _value;
+		balanceOf[_to] += _value;
+		//update the allowance
+		allowance[_from][msg.sender] -=_value;
+		//transfer a event
+		emit Transfer(_from,_to,_value);
+		//return a boolean
 		return true;
 	}
 }
