@@ -12,7 +12,13 @@
 	 //git push origin master
 //8. add 10000  to 2_deploy
 
+// #PROVISION TOKENS TO TOKEN SALE CONTRACT
+// #SET A TOKEN PTICE IN WEI
+// #ASSIGN AN ADMIN
+// #BUY TOKENS
+// #END SALE
 
+//start at 4:25:00
 
 pragma solidity >=0.4.22 <0.7.0;
 contract BirToken{
@@ -70,9 +76,9 @@ function transfer(address _to, uint _value)public  returns(bool success){
 	//transferFrom: it makes the transfer from our behalf
 	function transferFrom(address _from,address _to,uint _value) public returns(bool success){
 		//require from has enough tokens
-		require(_value <= balanceOf[_from]);
+		require(_value <= balanceOf[_from],'');
 		//require allowance is big enough
-		require(allowance[_from][msg.sender] >= _value);
+		require(allowance[_from][msg.sender] >= _value,'');
 		//change the balance
 		balanceOf[_from] -= _value;
 		balanceOf[_to] += _value;

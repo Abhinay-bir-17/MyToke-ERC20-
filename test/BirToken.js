@@ -1,4 +1,4 @@
-//continue from 1:38.30s
+//continue from 2:58.30s
 var BirToken=artifacts.require("BirToken");
 contract('BirToken',function(accounts){
 	var tokenInstance;
